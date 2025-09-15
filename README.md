@@ -1,10 +1,10 @@
 # lua_project
 
-Minimal LÖVE (LOVE2D) starter that now renders a tiny retro pixel alien sprite (replacing the single green pixel).
+Local two‑player retro alien duel with an intro dialogue cutscene.
 
 ## Files
 
-- `main.lua` – Game entry point, draws a small pixel-art alien (scalable).
+- `main.lua` – Game loop, entities, bullets, background image, and a timed/skippable intro dialogue cutscene (typewriter + slide-in).
 - `conf.lua` – Window configuration (size, title).
 
 ## Prerequisites
@@ -25,24 +25,30 @@ From this project folder:
 love .
 ```
 
-You should see an 800x600 window titled "Pixel Alien" with a small green alien gently bobbing / jumping in place.
+You should see an 800x600 window titled "Alien Duel" with a post‑apocalyptic background and an intro cutscene (aliens slide in, dialogue lines type out). Use Enter to fast‑forward or advance; last line waits for Enter.
 
-Controls:
+Gameplay Controls:
 
-| Key       | Action                      |
-| --------- | --------------------------- |
-| `+` / `=` | Increase pixel size (scale) |
-| `-`       | Decrease pixel size         |
-| `Space`   | Pause / resume jump         |
-| `Esc`     | Quit                        |
+| Player | Move       | Shoot      |
+| ------ | ---------- | ---------- |
+| P1     | W A S D    | F          |
+| P2     | Arrow Keys | Right Ctrl |
+
+Other:
+
+| Key   | Action                                    |
+| ----- | ----------------------------------------- |
+| Enter | Advance / fast-forward dialogue / restart |
+| Esc   | Quit                                      |
 
 If `love` isn't on your PATH, drag the project folder onto `love.exe` in Explorer.
 
 ## What to Try Next
 
-- Tweak the alien pattern: edit the `alienPattern` table in `main.lua` (use `X`, `O`, or `.` for empty).
-- Add colors: extend the `colors` table mapping characters to RGBA.
-- Animate: create multiple pattern tables and cycle them in `update`.
+- Extend dialogue: edit `cutscene.script` in `main.lua` (each item has `text` and `duration`). Use `math.huge` duration to wait for player input.
+- Add sound effects for shooting and hit.
+- Add a scoreboard for multiple rounds.
+- Animate the aliens (multiple patterns cycled over time).
 
 ## License
 
