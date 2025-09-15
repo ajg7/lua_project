@@ -63,29 +63,28 @@ function Scene.keypressed(k)
   local c=current(); if c and c.keypressed then c:keypressed(k) end
 end
 
--- ====== Example Scene so the game runs now ======
+-- External Title module (provides load/update/draw returning a state key)
+local TitleModule = require("src.ui.title")
+
+-- Adapter scene object implementing scene stack interface
 local TitleScene = {}
 function TitleScene:enter()
-  self.blink = 0
+  if TitleModule.load then TitleModule:load() end
 end
 function TitleScene:update(dt)
-  self.blink = self.blink + dt
   if Input.get("quit") then love.event.quit() end
   if Input.get("fullscreen") then
     local f = not lg.isFullscreen()
     lg.setMode(0, 0, { fullscreen = f, fullscreentype = "desktop", resizable = true })
   end
-  if lk.isDown("return") or lk.isDown("space") then
-    Scene.swap(require("play_scene_fallback")()) -- see fallback below
+  local nextState = TitleModule.update and TitleModule:update(dt)
+  if nextState == "game" then
+    Scene.swap(require("play_scene_fallback")())
   end
 end
 function TitleScene:draw()
-  local w, h = lg.getDimensions()
   lg.clear(0.08, 0.1, 0.12, 1)
-  lg.printf("My LÖVE Game", 0, h*0.35, w, "center")
-  if floor(self.blink*2)%2==0 then
-    lg.printf("Press Enter/Space", 0, h*0.55, w, "center")
-  end
+  if TitleModule.draw then TitleModule:draw() end
 end
 
 -- ====== Fallback “play scene” if you haven't created modules yet ======
